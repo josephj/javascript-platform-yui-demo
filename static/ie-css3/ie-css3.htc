@@ -1,0 +1,365 @@
+--Do not remove this if you are using--
+Original Author: Remiz Rahnas
+Original Author URL: http://www.htmlremix.com
+Published date: 2008/09/24
+
+Changes by Nick Fetchak:
+- IE8 standards mode compatibility
+- VML elements now positioned behind original box rather than inside of it - should be less prone to breakage
+- Added partial support for 'box-shadow' style
+- Checks for VML support before doing anything
+- Updates VML element size and position via timer and also via window resize event
+- lots of other small things
+Published date : 2010/03/14
+http://fetchak.com/ie-css3
+
+Thanks to TheBrightLines.com (http://www.thebrightlines.com/2009/12/03/using-ies-filter-in-a-cross-browser-way) for enlightening me about the DropShadow filter
+
+<public:attach event="ondocumentready" onevent="ondocumentready('v08vnSVo78t4JfjH')" />
+<script type="text/javascript">
+var vmlTimer = 200,     // Milliseconds
+    border_opacity = false; // Use opacity on borders of rounded-corner elements? Note: This causes antialiasing issues
+
+/*
+ * @method isVmlSupport() 
+ * @description check if VML is supported in current environment
+ *     borrowed from http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
+ */
+function isVmlSupport() {
+    if (typeof isVmlSupport.supported == "undefined") {
+        var el, 
+            vmlEl,
+            result;
+        el = document.body.appendChild(document.createElement("div"));
+        el.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
+        vmlEl = el.firstChild;
+        vmlEl.style.behavior = "url(#default#VML)";
+        result = (vmlEl && typeof vmlEl.adj === "object" ? true : false);
+        vmlEl.parentNode.removeChild(vmlEl);
+    }
+    return result;
+}
+
+/*
+ * @method getXY
+ * @description Get XY position
+ *     borrowed from http://www.quirksmode.org/js/findpos.html
+ */
+function getXY(obj) {
+    var curleft = 0,
+        curtop = 0;
+    if (obj.offsetParent) {
+        do {
+            curleft += obj.offsetLeft;
+            curtop  += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+    }
+    return {
+        "x": curleft,
+        "y": curtop
+    }
+}
+
+/*
+ * @method addBoxShadow
+ * @description Add box-shadow effect for Internet Explorer
+ * @return bool
+ */
+function addBoxShadow(el, rootEl) {
+    var style = el.currentStyle["box-shadow"] || "";
+    var match = style.match(/^(\d+)px (\d+)px (\d+)px (.+)/);
+    if (!match) {
+        return false;
+    }
+    // Create a VML element
+    // Attributes : styles, arcsize, id, fillcolor
+    var vmlEl = document.createElement("v:roundrect"),
+        attrs = {
+            "x"      : parseInt(RegExp.$1 || 0),
+            "y"      : parseInt(RegExp.$2 || 0),
+            "blur"   : parseInt(RegExp.$3 || 0),
+            "color"  : RegExp.$4
+        };
+    vmlEl.posOffset = {
+        'y': (0 - rootEl.pos_ieCSS3.y - attrs.blur + attrs.y),
+        'x': (0 - rootEl.pos_ieCSS3.x - attrs.blur + attrs.x)
+    };
+    vmlEl.sizeOffset = {
+        "width"  : 0,
+        "height" : 0
+    };
+    vmlEl.arcsize         = el.arcSize + "px";
+    vmlEl.fillcolor       = attrs.color;
+    vmlEl.strokecolor     = attrs.color;
+    vmlEl.className       = "vml_box_shadow";
+    vmlEl.style.antialias = true;
+    vmlEl.style.display   = "block";
+    vmlEl.style.height    = el.offsetHeight + "px";
+    vmlEl.style.left      = attrs.x + "px";
+    vmlEl.style.position  = "absolute";
+    vmlEl.style.top       = attrs.y + "px";
+    vmlEl.style.width     = el.offsetWidth + "px";
+    vmlEl.style.zIndex    = el.zIndex - 1;
+    //vmlEl.style.filter    = "progid:DXImageTransform.Microsoft.Blur(pixelRadius=" + vmlEl.userAttrs.radius + ", makeShadow=true, shadowOpacity=" + element.opacity +")";
+    el.parentNode.appendChild(vmlEl);
+    el.vml.push(vmlEl);
+    return true;
+}
+
+/*
+ * @method addBorderRect
+ * @description Add border-radius effect for Internet Explorer
+ * @return bool
+ */
+function addBorderRect(el, rootEl) {
+    if (isNaN(el.borderRadius)) { 
+        return false; 
+    }
+    el.style.background  = "transparent";
+    el.style.borderColor = "transparent";
+    var vmlEl = document.createElement("v:roundrect");
+    vmlEl.posOffset = {
+        "x" : (0.5 * el.strokeWeight) - rootEl.pos.x,
+        "y" : (0.5 * el.strokeWeight) - rootEl.pos.y
+    };
+    vmlEl.sizeOffset = {
+        "width"  : 0 - el.strokeWeight,
+        "height" : 0 - el.strokeWeight
+    };
+    vmlEl.arcsize         = el.arcSize +"px";
+    vmlEl.strokeColor     = el.strokeColor;
+    vmlEl.strokeWeight    = el.strokeWeight +"px";
+    vmlEl.stroked         = el.stroked;
+    vmlEl.className       = "vml_border_radius";
+    vmlEl.style.display   = "block";
+    vmlEl.style.position  = "absolute";
+    vmlEl.style.top       = (el.pos.y + vmlEl.posOffset.y) +"px";
+    vmlEl.style.left      = (el.pos.x + vmlEl.posOffset.x) +"px";
+    vmlEl.style.width     = (el.offsetWidth + vmlEl.sizeOffset.width) +"px";
+    vmlEl.style.height    = (el.offsetHeight + vmlEl.sizeOffset.height) +"px";
+    vmlEl.style.antialias = true;
+    vmlEl.style.zIndex    = el.zIndex - 1;
+    if (border_opacity && (el.opacity < 1)) {
+        vmlEl.style.filter = "progid:DXImageTransform.Microsoft.Alpha(Opacity="+ parseFloat(el.opacity * 100) +")";
+    }
+    var fill = document.createElement("v:fill");
+    fill.color     = el.fillColor;
+    fill.src       = el.fillSrc;
+    fill.className = "vml_border_radius_fill";
+    fill.type      = "tile";
+    fill.opacity   = el.opacity;
+    // Hack: IE6 doesn"t support transparent borders, use padding to offset original el
+    isIE6 = /msie|MSIE 6/.test(navigator.userAgent);
+    if (isIE6 && (el.strokeWeight > 0)) {
+        el.style.borderStyle   = "none";
+        el.style.paddingTop    = parseInt(el.currentStyle.paddingTop || 0) + el.strokeWeight;
+        el.style.paddingBottom = parseInt(el.currentStyle.paddingBottom || 0) + el.strokeWeight;
+    }
+    vmlEl.appendChild(fill);
+    el.parentNode.appendChild(vmlEl);
+    // For window resizing
+    el.vml.push(vmlEl);
+    return true;
+}
+
+/*
+ * @method addTextShadow
+ */
+function addTextShadow(el, rootEl) {
+    var match, 
+        radius,
+        vmlEl;
+    if (!el.textShadow) { 
+        return false;
+    }
+    match = el.textShadow.match(/^(\d+)px (\d+)px (\d+)px (#?\w+)/);
+    if (!match) { 
+        return false; 
+    }
+    vmlEl = el.cloneNode(true);
+    radius = parseInt(RegExp.$3 || 0);
+    vmlEl.userAttrs = {
+        "x"      : parseInt(RegExp.$1 || 0) - (radius),
+        "y"      : parseInt(RegExp.$2 || 0) - (radius),
+        "radius" : radius / 2,
+        "color"  : (RegExp.$4 || "#000")
+    };
+    vmlEl.posOffset = {
+        "y" : (0 - rootEl.pos.y + vmlEl.userAttrs.y),
+        "x" : (0 - rootEl.pos.x + vmlEl.userAttrs.x)
+    };
+    vmlEl.sizeOffset = {
+        "width"  : 0,
+        "height" : 0
+    };
+    vmlEl.style.color     = vmlEl.userAttrs.color;
+    vmlEl.style.position  = "absolute";
+    vmlEl.style.top       = (el.pos.y + vmlEl.posOffset.y) + "px";
+    vmlEl.style.left      = (el.pos.x + vmlEl.posOffset.x) + "px";
+    vmlEl.style.antialias = true;
+    vmlEl.style.behavior  = null;
+    vmlEl.className       = "vml_text_shadow";
+    vmlEl.innerHTML       = el.innerHTML;
+    // For some reason it only looks right with opacity at 75%
+    vmlEl.style.filter = '\
+        progid:DXImageTransform.Microsoft.Alpha(Opacity=75)\
+        progid:DXImageTransform.Microsoft.Blur(pixelRadius=' + vmlEl.userAttrs.radius + ',makeShadow=false,vmlElOpacity=100)\
+    ';
+    var clone = el.cloneNode(true);
+    clone.posOffset = {
+        "y" : 0 - rootEl.pos.y,
+        "x" : 0 - rootEl.pos.x
+    };
+    clone.sizeOffset = {
+        "width"  : 0,
+        "height" : 0
+    };
+    clone.style.behavior = null;
+    clone.style.position = "absolute";
+    clone.style.top      = (el.pos.y + clone.posOffset.y) +"px";
+    clone.style.left     = (el.pos.x + clone.posOffset.x) +"px";
+    clone.className      = "vml_text_shadow";
+    el.parentNode.appendChild(vmlEl);
+    el.parentNode.appendChild(clone);
+    el.style.visibility  = "hidden";
+    el.vml.push(clone);
+    el.vml.push(vmlEl);
+    return(true);
+}
+
+/*
+ * @method resizeHandler
+ * @description Rearrange the position of VML elements while window resize event occurs
+ */
+function resizeHandler() {
+    var vmlEls = window.ieCSS3.vmlEls;
+    if (typeof window.ieCSS3.vmlEls !== "object") { 
+        return false;
+    }
+    for (var i in vmlEls) {
+        var el = vmlEls[i];
+        if (typeof el.vml !== "object") { 
+            continue; 
+        }
+        // A single DOM element could have multiple VML elements
+        for (var z in el.vml) {
+            var vmlEl = el.vml[z],
+                targetPos,
+                targetSize;
+            targetPos = getXY(el);
+            targetPos.x = (targetPos.x + vmlEl.posOffset.x) + "px"; // 看不懂...
+            targetPos.y = (targetPos.y + vmlEl.posOffset.y) + "px"; // 看不懂...
+            if (vmlEl.style.left != targetPos.x) { 
+                vmlEl.style.left = targetPos.x; 
+            }
+            if (vmlEl.style.top != targetPos.y) { 
+                vmlEl.style.top = targetPos.y; 
+            }
+            targetSize = {
+                "width"  : parseInt(el.offsetWidth + vmlEl.sizeOffset.width),
+                "height" : parseInt(el.offsetHeight + vmlEl.sizeOffset.height)
+            }
+            if (vmlEl.offsetWidth !== targetSize.width) { 
+                vmlEl.style.width = targetSize.width + "px"; 
+            }
+            if (vmlEl.offsetHeight !== targetSize.height) {
+                vmlEl.style.height = targetSize.height + "px"; 
+            }
+        }
+    }
+    if (event && (event.type === "resize") && typeof window.ieCSS3.prevResizeHandler === "function") { 
+        window.ieCSS3.prevResizeHandler(); 
+    }
+}
+
+/*
+ * @method ondocumentready
+ * @description Initialization
+ */
+function ondocumentready(classID) {
+    var el     = this, 
+        i      = 0,
+        limit  = 100, 
+        rect   = null,
+        shadow = null,
+        text   = null,
+        rootEl = null;
+    if (!isVmlSupport()) {
+        return false;
+    }
+    if (el.className.match(classID)) {
+        return false;
+    }
+    el.className = el.className.concat(" ", classID);
+    // Add a namespace for VML (IE8 requires it)
+    if (!document.namespaces.v) {
+        document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
+    }
+    // Check to see if we've run once before on el page
+    if (typeof window.ieCSS3 === "undefined") {
+        // Create global ieCSS3 object
+        window.ieCSS3 = {
+            "vmlEls"      : [],
+            "updateTimer" : setInterval(resizeHandler, vmlTimer)
+        };
+        // Backup original resize function
+        if (typeof(window.onresize) == "function") {
+            window.ieCSS3.prevResizeHandler = window.onresize;
+        }
+        // Attach window resize event
+        //window.onresize = resizeHandler;
+    }
+    // These attrs are for the script and have no meaning to the browser:
+    el.borderRadius = parseInt(el.currentStyle["border-radius"]);
+    el.arcSize      = Math.min(el.borderRadius / Math.min(el.offsetWidth, el.offsetHeight), 1);
+    el.fillColor    = el.currentStyle.backgroundColor;
+    el.fillSrc      = el.currentStyle.backgroundImage.replace(/^url\((.+)\)$/, '$1');
+    el.strokeColor  = el.currentStyle.borderColor;
+    el.strokeWeight = parseInt(el.currentStyle.borderWidth);
+    el.stroked      = true;
+    el.opacity      = parseFloat(el.currentStyle.opacity || 1);
+    el.textShadow   = el.currentStyle[text-shadow];
+    el.element.vml  = new Array();
+    el.zIndex       = parseInt(el.currentStyle.zIndex);
+    if (isNaN(el.strokeWeight) || (el.strokeWeight === 0)) {
+        el.strokeWeight = 0;
+        el.strokeColor  = el.fillColor;
+        el.stroked      = "false";
+    }
+    if (isNaN(el.zIndex)) { 
+        el.zIndex = 0; 
+    }
+    // Find which element provides position:relative for the target element (default: <body/>)
+    rootEl = el;
+    do {
+        rootEl = rootEl.parentNode;
+        i++;
+        if (i >= limit) { 
+            return false;
+        }
+    } while (
+        (typeof rootEl !== "undefined") && 
+        (rootEl.currentStyle.position !== "relative") && 
+        (rootEl.tagName.toLowerCase() !== "body")
+    );
+    rootEl.pos = getXY(rootEl);
+    el.pos = getXY(el);
+    rootEl.pos_ieCSS3 = getXY(rootEl);
+    el.pos_ieCSS3 = getXY(el);
+    // Add effects (check necessarity inside the function)
+    shadow = addBoxShadow(el, rootEl);
+    rect   = addBorderRect(el, rootEl);
+    text   = addTextShadow(el, rootEl);
+    if (shadow || rect || text) { 
+        // Push this vmlEl to array
+        window.ieCSS3.vmlEls.push(el.element); 
+    }
+    // Not sure what the following script for...
+    if (typeof rootEl.document.ieCSS3_stylesheet === "undefined") {
+        rootEl.document.ieCSS3_stylesheet = rootEl.document.createStyleSheet();
+        rootEl.document.ieCSS3_stylesheet.addRule("v\\:roundrect", "behavior: url(#default#VML)");
+        rootEl.document.ieCSS3_stylesheet.addRule("v\\:fill", "behavior: url(#default#VML)");
+        rootEl.document.ieCSS3_stylesheet.ie7 = true;
+    }
+}
+</script>

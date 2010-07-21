@@ -1,0 +1,304 @@
+.mod-content .hd {
+    margin-bottom: 10px;
+}
+.mod-content .hd .title h1 {
+    font-family: "DFKai-SB","MingLiU","PMingLiU";
+    font-weight: bold;
+    font-size: 197%;
+    margin-bottom: 5px;
+}
+.mod-content .hd div.title {
+    border-bottom: none;
+}
+.mod-content .hd .title span.utility {
+    display: block;
+    float: left;
+    text-align: left;
+} 
+.mod-content .bd {
+    margin-bottom: 50px;
+}
+.mod-content .bd .profile {
+    zoom: 1;
+    margin-bottom: 10px;
+}
+.mod-content .bd .profile:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.mod-content .bd .profile .img {
+    float: left;
+}
+.mod-content .bd .profile .txt {
+    display: table;
+    margin-left: 10px;
+    *float: left;
+}
+.mod-content .bd .profile .txt .grid .cell {
+    font-size: 123%;
+}
+.mod-content .bd .content p {
+    font-size: 123.1%;
+    letter-spacing: 1px;
+    line-height: 2;
+    text-align: left;
+}
+.mod-content .ft .shortcut {
+    font-size: 123.1%;
+}
+.mod-side {
+    behavior: url(/static/ie-css3/ie-css3.htc);
+    background: #e8f3f5;
+    padding-bottom: 1px;
+    position: relative;
+    border-radius: 5px;
+    -moz-border-radius:0 0 5px 5px;
+    -webkit-border-radius:0 0 5px 5px;
+    *margin-bottom: 10px;
+}
+.mod-side .hd .title {
+    behavior: url(/static/ie-css3/ie-css3.htc);
+    border-radius: 5px 5px 0 0;
+    background: #82cdd3;
+    zoom: 1;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+}
+.mod-side .hd .title:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.mod-side .hd .title h3 {
+    color: #fff;
+    font-weight: bold;
+    font-size: 123.1%;
+    margin: 5px;
+    padding: 8px 5px 5px;
+    _padding: 7px 5px 5px;
+}
+.mod-side .hd .title h3 * {
+    vertical-align: bottom;
+}
+.mod-side .bd {
+    background: #fff;
+    behavior: url(/static/ie-css3/ie-css3.htc);
+    border-radius: 5px;
+    line-height: 1.5;
+    margin: 0 5px 5px;
+    padding: 10px 0; 
+    position: relative;
+    text-align: center;
+    zoom: 1;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.mod-side .ft {
+    background: #efefef;
+    font-size: 93%;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 7px 0 5px;
+}
+.mod-grid .bd {
+    text-align: center;
+}
+.mod-grid .bd .row {
+    margin-bottom: 5px;
+    text-align: center;
+    zoom: 1;
+}
+.mod-grid .bd .row:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.mod-grid .bd .grid {
+    margin: 0 5px;
+}
+.mod-grid .bd .grid .row .cell {
+    float: left;
+}
+.mod-grid .bd .grid .row .title {
+    color: #666;
+    letter-spacing: 1px;
+    text-align: right;
+    white-space: nowrap;
+    width: 35%
+}
+.mod-grid .bd .grid .row .content {
+    letter-spacing: 1px;
+    text-align: left;
+    width: 65%;
+    *width: 64.9%;
+}
+.mod-grid .bd .grid .row .button {
+    display: block;
+    float: none;
+    text-align: center;
+}
+.mod-img-list .bd ol,
+.mod-img-list .bd ul {
+    zoom: 1;
+}
+.mod-img-list .bd li {
+    float: left;
+    overflow: hidden;
+}
+.mod-img-list .bd ol:after,
+.mod-img-list .bd ul:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.mod-img-txt-list .bd li,
+.mod-img-txt-list .bd li .item {
+    zoom: 1;
+}
+.mod-img-txt-list .bd li .item:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.mod-img-txt-list .bd li {
+    background: url(bg_dot.gif) left bottom repeat-x;
+    padding: 10px 0;
+}
+.mod-img-txt-list .bd li.last {
+    background: none;
+}
+.mod-img-txt-list .bd li .item .img {
+    float: left;
+    margin-right: 10px;
+}
+.mod-img-txt-list .bd li .item .img img {
+    display: block;
+    border: solid 1px #000;
+}
+.mod-img-txt-list .bd li .item .txt {
+    display: table;
+    *float: left;
+}
+.mod-img-txt-list .bd li .item .txt h4 {
+    font-size: 123.1%; 
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+.mod-img-txt-list .bd li .item .txt p {
+    line-height: 1.5;
+}
+.mod-main {
+    margin-bottom: 10px;
+    zoom: 1;
+}
+.mod-main .hd {  
+    background: #f0845d;
+    behavior: url(/static/ie-css3/ie-css3.htc);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    position: relative;
+    zoom: 1;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.mod-main .hd .title {
+    zoom: 1;
+}
+.mod-main .hd .title:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.mod-main .hd .title h2 {
+    color: #fff;
+    float: left;
+    font-size: 123.1%;
+    font-weight: bold;
+    padding: 7px 10px 5px;
+}
+.mod-main .hd .title .utility {
+    float: right;
+    font-size: 93%;
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
+.mod-main .hd .title .utility .rss-link {
+    background: url(ico_feed.png) left center no-repeat;
+    display: -moz-inline-box;
+    display: inline-block;
+    padding: 3px 0 3px 20px;
+    zoom: 1;
+    _background: none;
+    _filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="/i7/ico_feed.png", sizingMethod="crop");
+}
+.mod-main .hd .paging {
+    background: #eaf2f5;
+    font-size: 93.1%;
+    letter-spacing: 1px;
+    padding: 10px;
+    text-align: right;
+}
+.mod-main .hd .paging em {
+    color: #369;
+}
+.mod-main .hd .paging strong {
+    color: #a00;
+}
+.mod-main .bd .introduction {
+    font-size: 93%;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+.mod-main .ft {
+    background: url(bg_dot.gif) left top repeat-x;
+    margin: 10px 0;
+    padding: 10px; 0;
+    text-align: center;
+}
+.mod-main .ft .shortcut {
+    letter-spacing: 1px;
+}
+.mod-main .ft .paging {
+    display: inline;
+    font-size: 95%;
+    margin: 1em 0;
+}
+.mod-main .ft .paging li {
+    display: inline;
+    vertical-align: middle;
+    width: 2em;
+}
+.mod-main .ft .paging .p {
+    background: url(bg_prevpage.gif) right center no-repeat;
+    width: 4em;
+}
+.mod-main .ft .paging .n {
+    background: url(bg_nextpage.gif) left center no-repeat;
+    width: 4em;
+}
+.mod-main .ft .paging li a, 
+.mod-main .ft .paging li strong {
+    font-size: 93%;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 2px 6px;
+}
+.mod-main .ft .paging .p a,
+.mod-main .ft .paging .n a {
+    padding: 0 16px;
+}

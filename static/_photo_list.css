@@ -1,0 +1,44 @@
+#photo-list {
+    margin-bottom:10px;
+}
+#photo-list .hd {
+    margin-bottom:10px;
+}
+#photo-list h2 {
+    font-weight:bold;
+    font-size:123.1%;
+    float:left;
+}
+#photo-list span {
+    float:right;
+}
+#photo-list .loading {
+    background: #fff url(bg_loading.gif) center center no-repeat; 
+    min-height: 300px;
+    _height: 300px;
+}
+#photo-list .bd .empty {
+    border:solid 1px #ccc;
+    color:#000;
+    font-size:93%;
+    letter-spacing:1px;
+    padding:100px 0;
+    text-align:center;
+}
+#photo-list .bd ul {
+    margin:0 20px 0 24px;
+}
+#photo-list .bd ul li {
+    float:left;
+    margin-right:3px;
+    margin-bottom:3px;
+}
+#photo-list img {
+    border: solid 2px #eee;
+    display: block;
+    width: 75px;
+    height: 75px;
+}
+#photo-list img.selected {
+    border:solid 2px red;
+}

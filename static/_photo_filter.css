@@ -1,0 +1,10 @@
+#photo-filter label,
+#photo-filter input {
+    font-size:123.1%;
+}
+#photo-filter input.keyword {
+    padding: 3px;
+}
+#photo-filter .row {
+    margin-bottom: 10px;
+}

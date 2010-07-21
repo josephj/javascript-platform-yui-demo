@@ -1,0 +1,9 @@
+#photo-viewer .bd {
+    background: #000 url(bg_loading.gif) center center no-repeat;
+    behavior: url(/static/ie-css3/ie-css3.htc); 
+    border-radius: 10px;    
+    min-height: 375px;
+    padding: 10px;
+    text-align: center;
+    -moz-border-radius: 10px;
+}
