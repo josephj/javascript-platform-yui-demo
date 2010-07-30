@@ -13,7 +13,17 @@ YUI.add("sandbox", function (Y) {
          * @return void
          */
         broadcast: function (msgName, data) {
-            Y.log("broadcast(\"" + msgName + "\" +) for #" + this.id + " is executed.", "info", "Sandbox"); 
+            Y.log("broadcast(\"" + msgName + "\") for #" + this.id + " is executed.", "info", "Sandbox"); 
+            var moduleId;
+            if (msgName.indexOf(":") !== -1) {
+                moduleId = msgName.split(":")[0];                    
+                if (moduleId !== this.id) {
+                    Y.log("broadcast(\"" + msgName + "\") the id you assigned is not identical with current module id.", "warn", "Sandbox"); 
+                    return false;
+                }
+            } else {
+                msgName = this.id + ":" + msgName;
+            }
             Y.Core._match(msgName, this.id, data);
         },
         /* 

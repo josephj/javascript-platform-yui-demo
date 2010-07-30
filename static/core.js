@@ -15,23 +15,37 @@ YUI.add("core", function (Y) {
          * @return void
          */
         match = function (msgName, callerId, callerData) {
-            Y.log("_match(\"" + msgName + "\", \"" + callerId + "\", \"" + callerData + "\") is executed.", "info", "Core");
+            Y.log("match(\"" + msgName + "\", \"" + callerId + "\", \"" + callerData + "\") is executed.", "info", "Core");
             var modules = [], 
-                i;
+                i,
+                key;
+            if (msgName.indexOf(":") !== -1) {
+                if (callerId !== msgName.split(":")[0]) {
+                    Y.log("match(\"" + msgName + "\") the id you assigned (" + msgName.split(":")[0] + ") is not identical with current module id (" + callerId + "). Stop execution.", "warn", "Sandbox"); 
+                    return;
+                }
+            }
+            msgName =  msgName.split(":")[1];
             // find modules which register this event
             for (i in listeners) {
-                if (listeners[i].hasOwnProperty(msgName)) {
-                    // prevent user handlers' error
-                    try {
-                        listeners[i][msgName](msgName, callerId, callerData);
-                        if (typeof registeredModules[i].onmessage !== "undefined") {
-                            registeredModules[i].onmessage(msgName, callerId, callerData);    
-                        }
-                        modules.push(i);
+                if (!listeners[i].hasOwnProperty(msgName) && !listeners[i].hasOwnProperty(callerId + ":" + msgName)) {
+                    continue;
+                }
+                if (listeners[i].hasOwnProperty(callerId + ":" + msgName)) {
+                    key  = callerId + ":" + msgName;
+                } else {
+                    key = msgName;
+                }
+                // prevent user handlers' error
+                try {
+                    listeners[i][key](msgName, callerId, callerData);
+                    if (typeof registeredModules[i].onmessage !== "undefined") {
+                        registeredModules[i].onmessage(msgName, callerId, callerData);    
                     }
-                    catch (e) {
-                        Y.log("_match() " + e.message, "error", "Core");
-                    }
+                    modules.push(i);
+                }
+                catch (e) {
+                    Y.log("_match() " + e.message, "error", "Core");
                 }
             }    
             Y.log("_match(\"" + msgName + "\", \"" + callerId + "\", \"" + callerData + "\") is executed successfully, " + modules.length + " module(s) is(are) influenced: \"#" + modules.join(", #") + "\"", "info", "Core");
@@ -50,7 +64,14 @@ YUI.add("core", function (Y) {
             var i, 
                 j,
                 listener,
-                listenerId;
+                listenerId,
+                targetId;
+/*
+            if (msgName.indexOf(":") !== -1) {
+                msgName = msgName.split(":")[0];
+                targetId = msgName.split(":")[1];
+            }
+*/
             handler = handler || function () {};
             listenerId = Y.guid();
             if (typeof listeners[moduleId] === "undefined") {
