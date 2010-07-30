@@ -27,6 +27,9 @@
              */
             onviewload = function () {
                 node = api.getViewNode();
+				node.on("click", function(e){
+					api.broadcast("photo-viewer:click");
+				});
             }, 
             /* 
              * Module message receive event

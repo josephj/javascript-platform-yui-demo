@@ -10,7 +10,7 @@
         <ul>
             <li>JavaScript 需處理模組之間溝通的問題，透過全域變數或方法傳遞會沒辦法彼此獨立。</li>
         </ul>
-        <h3>作法</h3>
+        <h3>概念</h3>
         <ul>
             <li>請參考 Nicholas Zakas 的 <a href="http://www.slideshare.net/nzakas/scalable-javascript-application-architecture" target="_blank">Scalable JavaScript Architecture</a></li>
         </ul>

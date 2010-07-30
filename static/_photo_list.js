@@ -1,12 +1,12 @@
 /*global Y, window */
 Y.Core.register("photo-list", function () {
-    var api, 
+    var api,
         node,
         lastImg,
         //===========================
         // Private Functions & Events
         //===========================
-        /* 
+        /*
          * User photo click event handler
          * @event photoClickHandler
          * @param event {Y.Event} Event object
@@ -24,10 +24,10 @@ Y.Core.register("photo-list", function () {
             api.broadcast("photo-list:click", lastImg.get("src"));
             window.scrollTo(0, 0);
         },
-        /* 
+        /*
          * Update UI when photo data feed has received
          * @method updateUI
-         * @param data {Object} Photo data feed 
+         * @param data {Object} Photo data feed
          * @private
          * @return void
          */
@@ -50,8 +50,8 @@ Y.Core.register("photo-list", function () {
             html.push("<ul class=\"clearfix\">");
             for (i in items) {
                 item = items[i];
-                img  = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_s.jpg"; 
-                link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id;  
+                img  = "http://farm" + item.farm + ".static.flickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_s.jpg";
+                link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id;
                 html.push("<li><a href=\"" + link + "\" title=\"" + item.title + "\"><img src=\"" + img + "\"></a></li>");
             }
             html.push("</ul>");
@@ -70,13 +70,28 @@ Y.Core.register("photo-list", function () {
             updateUI(callerData);
             node.one(".bd").removeClass("loading");
         },
+		viewerClickHandler = function (msgName, callerId, callerData) {
+            var liNode = node.one(".selected").ancestor(function (node) {
+				if (node.get("nodeName").toLowerCase() === "li") {
+					return true;
+				}
+			});
+			if (!liNode.next()) {
+				lastImg = liNode.ancestor().get("children").item(0).one("img");
+			} else {
+				lastImg = liNode.next().one("img");
+			}
+			lastImg.addClass("selected");
+			liNode.one("img").removeClass("selected");
+			api.broadcast("photo-list:click", lastImg.get("src"));
+        },
         //=========================
-        // pubilc functions 
+        // pubilc functions
         //=========================
-        /* 
-         * Module initialization 
+        /*
+         * Module initialization
          * @event init
-         * @param api {Y.Sandbox} Module API 
+         * @param api {Y.Sandbox} Module API
          * @public
          * @return void
          */
@@ -85,10 +100,11 @@ Y.Core.register("photo-list", function () {
             api = sandbox;
             api.listen("photo-filter:submit", submitReceiveHandler);
             api.listen("photo-filter:response", dataReceiveHandler);
+			api.listen("photo-viewer:click", viewerClickHandler);
         },
-        /* 
+        /*
          * Module content ready event
-         * @event onviewload 
+         * @event onviewload
          * @public
          * @return void
          */
@@ -100,14 +116,14 @@ Y.Core.register("photo-list", function () {
             lastImg.addClass("selected");
             api.broadcast("photo-list:rendered", lastImg.get("src"));
         },
-        /* 
+        /*
          * Module message receive event
          * @event onmessage
          * @public
          * @return void
          */
         onmessage = function (eventName, callerId, callerData) {
-            Y.log("onmessage() : " + eventName, "info", "#photo-list"); 
+            Y.log("onmessage() : " + eventName, "info", "#photo-list");
         };
     return {
         init: init,
