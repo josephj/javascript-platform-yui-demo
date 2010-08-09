@@ -1,6 +1,6 @@
 /*global Y, window */
 (function () { 
-    Y.Core.register("photo-filter", function () {
+    Y.PlatformCore.register("photo-filter", function () {
         var api,
             node,
             //=================================

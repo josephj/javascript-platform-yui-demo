@@ -1,6 +1,6 @@
 /*global Y */
 (function () {
-    Y.Core.register("photo-viewer", function () {
+    Y.PlatformCore.register("photo-viewer", function () {
         var api,
             node,
             //=================================

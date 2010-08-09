@@ -29,8 +29,8 @@
 <script type="text/javascript" src="static/yui/3.1.1/event/event-delegate.js"></script>
 <script type="text/javascript" src="static/yui/3.1.1/substitute/substitute.js"></script>
 <!-- JavaScript Framework Core Libraries -->
-<script type="text/javascript" src="static/core.js"></script>
-<script type="text/javascript" src="static/sandbox.js"></script>
+<script type="text/javascript" src="static/platform/core.js"></script>
+<script type="text/javascript" src="static/platform/sandbox.js"></script>
 <script type="text/javascript" src="static/_photo_viewer.js"></script>
 <script type="text/javascript" src="static/_photo_filter.js"></script>
 <script type="text/javascript" src="static/_photo_list.js"></script>

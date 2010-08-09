@@ -1,5 +1,5 @@
 /*global Y, window */
-Y.Core.register("photo-list", function () {
+Y.PlatformCore.register("photo-list", function () {
     var api,
         node,
         lastImg,

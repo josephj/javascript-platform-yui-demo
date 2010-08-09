@@ -1,0 +1,3 @@
+[submodule "static/platform"]
+	path = static/platform
+	url = git@github.com:josephj/javascript-platform-yui.git
