@@ -18,22 +18,38 @@
 <link type="text/css" rel="stylesheet" href="static/_photo_filter.css" >
 <link type="text/css" rel="stylesheet" href="static/_photo_viewer.css" >
 <link type="text/css" rel="stylesheet" href="static/_introduction.css" >
-<!-- JavaScript Framework Dependencies (using YUI) -->
+<link type="text/css" rel="stylesheet" href="static/_lang_show.css" >
+<link type="text/css" rel="stylesheet" href="static/_lang_select.css" >
 <script type="text/javascript" src="static/yui/3.1.1/yui/yui.js"></script>
-<script type="text/javascript" src="static/yui/3.1.1/oop/oop.js"></script>
-<script type="text/javascript" src="static/yui/3.1.1/dom/dom.js"></script>
-<script type="text/javascript" src="static/yui/3.1.1/event-custom/event-custom-base.js"></script>
-<script type="text/javascript" src="static/yui/3.1.1/event/event-base.js"></script>
-<script type="text/javascript" src="static/yui/3.1.1/node/node-base.js"></script>
-<!-- Page Module Dependencies -->
-<script type="text/javascript" src="static/yui/3.1.1/event/event-delegate.js"></script>
-<script type="text/javascript" src="static/yui/3.1.1/substitute/substitute.js"></script>
-<!-- JavaScript Framework Core Libraries -->
 <script type="text/javascript" src="static/platform/core.js"></script>
 <script type="text/javascript" src="static/platform/sandbox.js"></script>
+<script type="text/javascript" src="static/platform/lang_service.js"></script>
 <script type="text/javascript" src="static/_photo_viewer.js"></script>
 <script type="text/javascript" src="static/_photo_filter.js"></script>
 <script type="text/javascript" src="static/_photo_list.js"></script>
+<script type="text/javascript" src="static/_lang_show.js"></script>
+<script type="text/javascript" src="static/_lang_select.js"></script>
+<script>
+// global Y is necessary...
+Y = YUI({
+    filter: "raw",
+    lang: "jp-JP",
+    groups: {
+        myapp: {
+            base: "static/",
+            modules : {
+                "demo" : {
+                    lang: ["jp-JP", "zh-Hant", "zh-Hans"]
+                }
+            }
+        }
+    }
+}).use("substitute", "platform-core", "platform-sandbox", "lang-service", "event-delegate", "intl", "demo", function (Y) {
+    var core = Y.PlatformCore;
+    core.registerAll(YUI.PlatformModules);
+    core.setLangModule("demo");
+});
+</script>
 </head>
 <body class="yui3-skin-sam">
 <h1><?php echo $data["title"]; ?></h1>

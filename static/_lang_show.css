@@ -1,0 +1,48 @@
+#lang-show .bd {
+    background: #000 url(bg_loading.gif) center center no-repeat;
+    behavior: url(/static/ie-css3/ie-css3.htc); 
+    border-radius: 10px;    
+    min-height: 375px;
+    padding: 10px;
+    text-align: center;
+    -moz-border-radius: 10px;
+}
+#lang-show img {
+    behavior: url(/static/ie-css3/ie-css3.htc); 
+    border-radius: 10px;    
+    -moz-border-radius: 10px;
+}
+#lang-show .greeting {
+    position: relative;
+}
+#lang-show .message {
+    background: #fff;
+    behavior: url(/static/ie-css3/ie-css3.htc); 
+    border-radius: 10px;    
+    font: bold 123.1% Arial;
+    padding: 10px;
+    position: absolute;
+    text-align: left;
+    width: 150px;
+    -moz-border-radius: 10px;
+}
+#lang-show .message-hidden {
+    top: -1000em;
+    left: -1000em;
+}
+#lang-show .message .x1 {
+   display:block;
+   font-size:0;
+   height:1px;
+   width:1px;
+   position:absolute;
+   right:-15px;
+   top:15px;
+   border-right:0;
+   border-left:15px solid #fff; /* pixel size = tail size */
+   border-top:10px solid transparent; /* set angle of arrow */
+   border-bottom:10px solid transparent;
+   _border-top-color:cyan; /* No 'transparent' borders in IE6 */
+   _border-bottom-color:cyan;
+   _filter:chroma(color="cyan"); /* filter out the cyan color */ 
+}

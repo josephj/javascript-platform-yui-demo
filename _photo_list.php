@@ -1,5 +1,5 @@
 <?php
-$url = "http://api.flickr.com/services/feeds/photos_public.gne?id=87715586@N00&format=json&nojsoncallback=1";
+$url = "http://api.flickr.com/services/feeds/photos_public.gne?tags=coscup&lang=en-us&format=json&nojsoncallback=1";
 if ( ! $result = apc_fetch($url)) 
 {
     $ch = curl_init($url);

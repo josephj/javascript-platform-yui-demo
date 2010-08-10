@@ -1,5 +1,5 @@
 /*global Y, window */
-Y.PlatformCore.register("photo-list", function () {
+YUI.PlatformModules["photo-list"] = (function () {
     var api,
         node,
         lastImg,
