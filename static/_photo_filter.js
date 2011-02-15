@@ -29,7 +29,7 @@ YUI.PlatformModules["photo-filter"] = (function () {
         makeRequest = function () {
             var tokens    = {},
                 callback = "",
-                url      = API_ENTRYPOINT + "?method=" + API_METHOD + "&api_key=" + API_KEY + "&tags={tags}&per_page=100&sort=interestingness-desc&format=" + API_RESPONSE_FORMAT + "&jsoncallback={callback}";  // Flickr API 网址
+                url      = API_ENTRYPOINT + "?method=" + API_METHOD + "&api_key=" + API_KEY + "&tags={tags}&per_page=100&page=1&sort=interestingness-desc&format=" + API_RESPONSE_FORMAT + "&jsoncallback={callback}";  // Flickr API 网址
 
             callback = "_getData_" + parseInt(new Date().getTime(), 10);
             tokens = {

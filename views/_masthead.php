@@ -4,7 +4,7 @@
         <span class="title">    
             <a name="top">
                 <img src="static/logo_156x43.png" width="156" height="43">
-                JavaScript Platform using YUI 3
+                JavaScript Modular Platform
             </a>
         </span>
         <a href="http://developer.yahoo.com/yui/3" class="extra" target="_blank">

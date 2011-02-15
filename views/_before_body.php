@@ -20,7 +20,17 @@
 <link type="text/css" rel="stylesheet" href="static/_introduction.css" >
 <link type="text/css" rel="stylesheet" href="static/_lang_show.css" >
 <link type="text/css" rel="stylesheet" href="static/_lang_select.css" >
-<script type="text/javascript" src="static/yui/3.1.1/yui/yui.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/3.1.1/build/yui/yui-min.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/substitute/substitute.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/oop/oop.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/dom/dom-base.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/dom/selector-native.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/dom/selector-css2.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/event-custom/event-custom.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/event/event-base.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/node/node-base.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/event/event-delegate.js"></script>
+<script src="http://yui.yahooapis.com/3.1.1/build/intl/intl.js"></script>
 <script type="text/javascript" src="static/platform/core.js"></script>
 <script type="text/javascript" src="static/platform/sandbox.js"></script>
 <script type="text/javascript" src="static/platform/lang_service.js"></script>
@@ -36,6 +46,7 @@ Y = YUI({
     lang: "jp-JP",
     groups: {
         myapp: {
+            filter: "raw",
             base: "static/",
             modules : {
                 "demo" : {
@@ -44,7 +55,7 @@ Y = YUI({
             }
         }
     }
-}).use("substitute", "platform-core", "platform-sandbox", "lang-service", "event-delegate", "intl", "demo", function (Y) {
+}).use("substitute", "platform-core", "lang-service", "event-delegate", "demo",  function (Y) {
     var core = Y.PlatformCore;
     core.registerAll(YUI.PlatformModules);
     core.setLangModule("demo");
