@@ -1,11 +1,11 @@
 @font-face {
     font-family: Graublau Sans Web;
-    src: url(http://josephj.com:50010/static/GraublauWeb.otf) format("opentype");
+    src: url(http://josephj.com/project/javascript-platform-yui-demo/static/GraublauWeb.otf) format("opentype");
 }
 
 @font-face {
     font-family: Graublau Sans Web;
-    src: url(http://josephj.com:50010/static/GraublauWebBold.otf) format("opentype");
+    src: url(http://josephj.com/project/javascript-platform-yui-demo/static/GraublauWebBold.otf) format("opentype");
     font-weight: bold;
 }
 
